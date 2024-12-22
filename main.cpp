@@ -8,17 +8,17 @@
 #include <QRegularExpression>
 #include <QFont>
 
-// Funções globais para a lógica da calculadora
+//Funções globais
 static double valorAtual = 0;
 static QString operacaoAtual = "";
-static int novaEntrada = 1; // Controla quando limpar o campo para nova entrada
+static int novaEntrada = 1; //Controla quando limpar o campo para nova entrada
 
-// Atualiza o display da calculadora
+//Atualiza o quadro da calculadora
 void atualizarDisplay(QLineEdit *display, const QString *texto) {
     display->setText(*texto);
 }
 
-// Quando um botão numérico é clicado
+//Quando um numero é clicado
 void numeroClicado(QLineEdit *display, int valor) {
     if (novaEntrada) {
         display->clear();
@@ -27,14 +27,14 @@ void numeroClicado(QLineEdit *display, int valor) {
     display->setText(display->text() + QString::number(valor));
 }
 
-// Quando uma operação é clicada
+//Quando uma operação é clicada
 void operacaoClicada(QLineEdit *display, const QString *operacao) {
     valorAtual = display->text().toDouble();
     operacaoAtual = *operacao;
     novaEntrada = 1;
 }
 
-// Quando o botão "=" é clicado
+//Quando o botão "=" é clicado
 void calcularResultado(QLineEdit *display) {
     double novoValor = display->text().toDouble();
 
@@ -58,7 +58,7 @@ void calcularResultado(QLineEdit *display) {
     novaEntrada = 1;
 }
 
-// Quando o botão "C" é clicado
+//Quando o botão "C" é clicado
 void limpar(QLineEdit *display) {
     valorAtual = 0;
     operacaoAtual = "";
@@ -69,7 +69,7 @@ void limpar(QLineEdit *display) {
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    // Janela principal
+    //Janela principal
     QWidget *janela = new QWidget;
     QFont fonteDisplay("Arial", 18, QFont::Bold);
     janela->setFont(fonteDisplay);
@@ -82,9 +82,9 @@ int main(int argc, char *argv[]) {
 
         "QLineEdit {"
         "   font-size: 22px;" // Tamanho da fonte no display
-        "   background-color: #FFFFFF;" // Fundo branco
-        "   color: #86A788;" // Texto cinza escuro
-        "   border: 2px solid #86A788;" // Borda cinza
+        "   background-color: #FFFFFF;" // Fundo
+        "   color: #86A788;" // Texto
+        "   border: 2px solid #86A788;" // Borda
         "   border-radius: 5px;" // Bordas arredondadas
         "   padding: 5px;" // Espaçamento interno
         "}"
@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
         "   font-size: 16px;" // Tamanho da fonte nos botões
         "   background-color: #FFE2E2;" // Cor do botão
         "   color: #388E3C;" // Cor do texto
-        "   border: 1px solid #388E3C;" // Borda verde escuro
+        "   border: 1px solid #388E3C;" // Borda
         "   border-radius: 5px;" // Bordas arredondadas
         "   padding: 10px;" // Espaçamento interno
         "}"
@@ -107,17 +107,15 @@ int main(int argc, char *argv[]) {
         "}"
         );
 
-    // Layout principal
     QVBoxLayout *layoutPrincipal = new QVBoxLayout(janela);
 
-    // Display
     QLineEdit *display = new QLineEdit("0");
     display->setReadOnly(true);
     display->setAlignment(Qt::AlignRight);
     display->setMinimumHeight(50);
     layoutPrincipal->addWidget(display);
 
-    // Layout dos botões
+    //Layout dos botões
     QGridLayout *layoutBotoes = new QGridLayout;
     QString botoes[4][4] = {
         {"7", "8", "9", "+"},
@@ -126,29 +124,29 @@ int main(int argc, char *argv[]) {
         {"C", "0", "=", "/"}
     };
 
-    // Adicionando os botões
+    //Adicionando os botões
     for (int i = 0; i < 4; ++i) {
         for (int j = 0; j < 4; ++j) {
             QPushButton *botao = new QPushButton(botoes[i][j]);
             layoutBotoes->addWidget(botao, i, j);
 
             if (botoes[i][j].contains(QRegularExpression("[0-9]"))) {
-                // Botões numéricos
+                //Botões numéricos
                 QObject::connect(botao, &QPushButton::clicked, [=]() {
                     numeroClicado(display, botoes[i][j].toInt());
                 });
             } else if (botoes[i][j] == "+" || botoes[i][j] == "-" || botoes[i][j] == "*" || botoes[i][j] == "/") {
-                // Operações
+                //Operações
                 QObject::connect(botao, &QPushButton::clicked, [=]() {
                     operacaoClicada(display, &botoes[i][j]);
                 });
             } else if (botoes[i][j] == "=") {
-                // Resultado
+                //Resultado
                 QObject::connect(botao, &QPushButton::clicked, [=]() {
                     calcularResultado(display);
                 });
             } else if (botoes[i][j] == "C") {
-                // Limpar
+                //Limpar
                 QObject::connect(botao, &QPushButton::clicked, [=]() {
                     limpar(display);
                 });
