@@ -8,7 +8,7 @@
 
 ## Ajustes e melhorias
 
-O projeto ainda foi desenvolvido para aprendizagem, há os seguintes detalhes a melhorar:
+O projeto foi desenvolvido para aprendizagem, há os seguintes detalhes a melhorar:
 - [ ] Exibir a operação completa no terminal
 - [ ] Adicionar o emulador Android para visualizar o projeto como app
 - [ ] Adicionar ícone na janela
